@@ -7,10 +7,10 @@ namespace CoreCrud.Repository
     public interface IProduct
     {
 
-        Task<Product> AddProduct(int objId);
-        Task<Product> UpdateProduct(int objId);
+        Task<Product> AddProduct(Product objId);
+        Task<Product> UpdateProduct(Product objId);
         Task<Product> Get(int objId);
         Task<List<Product>> Gets();
-        Task<string> Delete(Product obj);
+        bool Delete(int objId);
     }
 }
