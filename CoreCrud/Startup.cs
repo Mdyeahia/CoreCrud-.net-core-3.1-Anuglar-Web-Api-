@@ -27,6 +27,7 @@ public class Startup
     {
         services.AddScoped<ICategory,CategoryRepository>();
         services.AddScoped<IProduct,ProductRepository>();
+        services.AddScoped<IMenu,MenuRepository>();
 
         services.AddDbContext<APIDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("CoreCrudDB")));
         services.AddSwaggerGen(options => {
