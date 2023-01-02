@@ -23,6 +23,9 @@ namespace CoreCrud.Models
         public virtual DbSet<StockMaster> StockMasters { get; set; }
         public virtual DbSet<Supplier> Suppliers { get; set; }
         public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<PpDetail> PpDetails { get; set; }
+        public virtual DbSet<PpMaster> PpMasters { get; set; }
+        public virtual DbSet<MachineAllocation> MachineAllocations { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
@@ -143,6 +146,98 @@ namespace CoreCrud.Models
                     .HasMaxLength(300)
                     .IsUnicode(false);
             });
+            modelBuilder.Entity<PpDetail>(entity =>
+            {
+                entity.ToTable("pp_detail");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Color)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("color");
+
+                entity.Property(e => e.DeliveryDate)
+                    .HasColumnType("datetime")
+                    .HasColumnName("delivery_date");
+
+                entity.Property(e => e.FmCode).HasColumnName("fmCode");
+
+                entity.Property(e => e.MasterId).HasColumnName("master_id");
+
+                entity.Property(e => e.Qty).HasColumnName("qty");
+
+                entity.HasOne(d => d.Master)
+                    .WithMany(p => p.PpDetails)
+                    .HasForeignKey(d => d.MasterId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_pp_master_pp_detail");
+            });
+
+            modelBuilder.Entity<PpMaster>(entity =>
+            {
+                entity.ToTable("pp_master");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.Buyer)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("buyer");
+
+                entity.Property(e => e.Customer)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("customer");
+
+                entity.Property(e => e.Merchandiser)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("merchandiser");
+
+                entity.Property(e => e.PpNo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ppNo");
+
+                entity.Property(e => e.StyleNo)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("styleNo");
+            });
+            modelBuilder.Entity<MachineAllocation>(entity =>
+            {
+                entity.ToTable("machine_allocation");
+
+                entity.Property(e => e.Id).HasColumnName("id");
+
+                entity.Property(e => e.MachineNo).HasColumnName("machineNo");
+
+                entity.Property(e => e.McDia).HasColumnName("mc_dia");
+
+                entity.Property(e => e.McGg).HasColumnName("mc_gg");
+
+                entity.Property(e => e.OrderQty).HasColumnName("order_qty");
+
+                entity.Property(e => e.PpNo)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("ppNo");
+
+                entity.Property(e => e.Sl)
+                    .HasColumnType("decimal(5, 2)")
+                    .HasColumnName("sl");
+
+                entity.Property(e => e.StartDate)
+                    .HasColumnType("date")
+                    .HasColumnName("start_date");
+
+                entity.Property(e => e.Status)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("status");
+            });
+
             OnModelCreatingPartial(modelBuilder);
         }
 

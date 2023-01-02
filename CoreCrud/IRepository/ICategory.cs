@@ -10,7 +10,7 @@ namespace CoreCrud.Repository
         Task<Category> AddCategory(Category category);
         Task<Category> UpdateCategory(Category category);
         Task<Category> Get(int objId);
-        Task<List<Category>> Gets();
+        Task<List<Category>> Gets(int pageNumber);
         bool Delete(int objId);
     }
 }

@@ -17,8 +17,8 @@ namespace CoreCrud.Controllers
             _category = category;
         }
         [HttpGet]
-        [Route("AllCategory")]
-        public async Task<ActionResult> Gets() => Ok(await _category.Gets());
+        [Route("AllCategory/{{page}}")]
+        public async Task<ActionResult> Gets(int pageNumber) => Ok(await _category.Gets(pageNumber));
         [HttpGet]
         [Route("Category/{{Id}}")]
         public async Task<ActionResult> Get(int id) => Ok(await _category.Get(id));

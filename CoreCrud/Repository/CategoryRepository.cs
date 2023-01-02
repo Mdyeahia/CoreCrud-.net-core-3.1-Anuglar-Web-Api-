@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace CoreCrud.Repository
 {
@@ -17,7 +18,7 @@ namespace CoreCrud.Repository
                 throw new ArgumentNullException(nameof(context));
         }
 
-        public async Task<List<Category>> Gets() => await _appDB.Categories.ToListAsync();
+        public async Task<List<Category>> Gets(int pageNumber) => await _appDB.Categories.Take(pageNumber).ToListAsync();
         public async Task<Category> Get(int id) => await _appDB.Categories.FindAsync(id);
 
         public async Task<Category> AddCategory(Category category)
